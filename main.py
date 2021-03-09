@@ -7,10 +7,10 @@ def main():
     
     try:
         #Verifica se o argumento esta no modelo de entrada (cadeia de operações entre aspas simples)
-        if arg[0] != "'" or arg[-1] != "'":
-            raise ValueError
+        # if arg[0] != "'" or arg[-1] != "'":
+        #     raise ValueError
         
-        arg = arg[1:-1] #Remove as aspas simples do inicio e do fim da string
+        # arg = arg[1:-1] #Remove as aspas simples do inicio e do fim da string
         arg_chars_list = list(arg) #Lista dos caracteres do arg
 
         #Se o símbolo de operação estivar nas pontas da erro
