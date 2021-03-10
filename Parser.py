@@ -1,5 +1,8 @@
 from Tokenizer import Tokenizer
 from Token import tokens
+from Erros import Erros
+
+error = Erros()
 
 class Parser:
 
@@ -14,22 +17,37 @@ class Parser:
         """
         result = 0
 
-        if self.tokens.actual == "INT":
-            
-        
-        # result = 0
+        if self.tokens.actual.type == "INT":
+            result += self.tokens.actual.value
 
-        # while self.tokens.position < len(self.tokens.origin):
+            self.tokens.selectNext()
 
-        #     _type, num_dig = self.tokens.get_token_type()
+            if self.tokens.actual.type in ['EOF', 'INT']:
+                error.entrada_nao_aceita()
+
+            while self.tokens.actual.type in ['PLUS', 'MINUS']:
+                operador = self.tokens.actual.type
+                
+                self.tokens.selectNext()
+
+                if self.tokens.actual.type == 'INT':
+                    if operador == 'PLUS':
+                        result += self.tokens.actual.value
+                    else:
+                        result -= self.tokens.actual.value    
+                elif self.tokens.actual.type == 'EOF':
+                    error.operador_no_final()
+                else:
+                    error.sequencia_de_operadores()
             
-        #     if num_dig == 0:    
-        #         raise ValueError("ERRO")
-        #         break
-        #     else:
-        #         for e in range(num_dig):
-        #             self.tokens.selectNext()
-        # return
+                self.tokens.selectNext()
+                if self.tokens.actual.type == 'INT':
+                    error.entrada_nao_aceita()
+
+            return result
+
+        else:
+            error.entrada_nao_aceita()
 
     def run(self, cf):
         """
@@ -39,9 +57,8 @@ class Parser:
             This method willbe called by main(). 
         """
 
-        for token in tokens:
-            token
+        for token in tokens: token
     
         self.tokens = Tokenizer(cf, 0)
 
-        return self.parseExpression()
+        return print(self.parseExpression())
