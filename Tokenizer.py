@@ -1,11 +1,11 @@
-from Token import tokens
+from Token import Token, tokens
 
 class Tokenizer:
 
     def __init__(self, origin, position, actual=None):
         self.origin = origin                    # Código-fonte que será tokenizado
         self.position = position                # Posição atual que o Tokenizador está separando
-        self.actual = self.get_token_type()[0]  # O último token separado
+        self.actual = self.get_token()          # O último token separado
 
     def selectNext(self):
         """
@@ -13,20 +13,25 @@ class Tokenizer:
         """
 
         if self.position < len(self.origin):
-            self.position += 1
-            
-    def get_token_type(self):
+            self.position += len(str(self.actual.value))
+            self.actual = self.get_token()
 
-        num_dig = 0
-        _type = None
-        
-        for e in range(len(tokens)):
+        if self.actual.type == 'SPACE':
+            self.selectNext()
+
+    def get_token(self):
+
+        for token in tokens:
             cf = self.origin
             pos = self.position
-            if tokens[e].value.match(cf[pos:]) != None:
-                num_dig = tokens[e].value.match(cf[pos:]).span()[1]
-                _type = tokens[e].type
-                break
 
-        return _type, num_dig
+            if token.value.match(cf[pos:]) != None:
+                num_dig = token.value.match(cf[pos:]).span()[1]
+                _type = token.type
+                value = int(cf[pos:pos + num_dig]) if _type == 'INT' else cf[pos:pos + num_dig]
 
+                tk = Token(_type, value)
+                return tk
+
+        err = 'Entrada não aceita'
+        raise ValueError(err)
