@@ -26,6 +26,7 @@ class Tokenizer:
             pos = self.position
 
             if token.value.match(cf[pos:]) != None:
+                
                 num_dig = token.value.match(cf[pos:]).span()[1]
                 _type = token.type
                 value = int(cf[pos:pos + num_dig]) if _type == 'INT' else cf[pos:pos + num_dig]
