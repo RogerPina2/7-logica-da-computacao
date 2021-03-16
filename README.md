@@ -10,4 +10,7 @@ Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 
 
 #EBNF
 
-EXPRESSION = NUMBER, {("+"|"-"|"*"|"/"|), NUMBER};
+EXPRESSION = NUMBER, {("+"|"-"|"*"|"/"), NUMBER};
+
+NUMBER = DIGIT, {DIGIT};
+DIGIT = 0|1|2|3|4|5|6|7|8|9;
