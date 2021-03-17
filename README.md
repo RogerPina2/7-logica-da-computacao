@@ -6,7 +6,7 @@ Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 
 
 # Diagrama sintático
 
-![DIagrama Sintático](https://user-images.githubusercontent.com/38434902/111401282-be949100-86a7-11eb-85a0-260c1dd6f07b.png)
+![DIagrama Sintático](https://user-images.githubusercontent.com/38434902/111401453-14693900-86a8-11eb-9230-c10319c7143a.png)
 
 # EBNF
 
