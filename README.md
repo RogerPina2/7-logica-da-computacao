@@ -6,11 +6,10 @@ Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 
 
 # Diagrama sintático
 
-![DIagrama Sintático](https://user-images.githubusercontent.com/38434902/111401453-14693900-86a8-11eb-9230-c10319c7143a.png)
+![DIagrama Sintático](https://user-images.githubusercontent.com/38434902/111401692-893c7300-86a8-11eb-9803-bf807081918a.png)
 
 # EBNF
+EXPRESSION = NUMBER, {("+" | "-" | "*" | "/"), NUMBER};
 
-EXPRESSION = NUMBER, {("+"|"-"|"*"|"/"), NUMBER};
-
-NUMBER = DIGIT, {DIGIT};
-DIGIT = 0|1|2|3|4|5|6|7|8|9;
+NUMBER = DIGIT, {DIGIT} ;
+DIGIT = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ;
