@@ -6,9 +6,9 @@ Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 
 
 # Diagrama sintático
 
-![image](https://user-images.githubusercontent.com/38434902/110695301-774e6200-81c8-11eb-96c0-7453bcfcc5f6.png)
+![DIagrama Sintático](https://user-images.githubusercontent.com/38434902/111401282-be949100-86a7-11eb-85a0-260c1dd6f07b.png)
 
-#EBNF
+# EBNF
 
 EXPRESSION = NUMBER, {("+"|"-"|"*"|"/"), NUMBER};
 
