@@ -52,7 +52,7 @@ class Parser():
                     if self.tokens.actual.type == 'INT':
                         error.entrada_nao_aceita()
 
-            return result
+            return int(result)
 
         else:
             error.entrada_nao_aceita()
