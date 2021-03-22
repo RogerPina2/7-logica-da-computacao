@@ -5,7 +5,7 @@ class Tokenizer:
     def __init__(self, origin, position, actual=None):
         self.origin = origin                    # Código-fonte que será tokenizado
         self.position = position                # Posição atual que o Tokenizador está separando
-        self.actual = self.get_token()          # O último token separado
+        self.actual = self.getActual()          # O último token separado
 
     def selectNext(self):
         """
@@ -14,12 +14,12 @@ class Tokenizer:
 
         if self.position < len(self.origin):
             self.position += len(str(self.actual.value))
-            self.actual = self.get_token()
+            self.actual = self.getActual()
 
         if self.actual.type == 'SPACE':
             self.selectNext()
 
-    def get_token(self):
+    def getActual(self):
 
         for token in tokens:
             cf = self.origin
