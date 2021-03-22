@@ -6,7 +6,7 @@ Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 
 
 # Diagrama sintático
 
-![DIagrama Sintático](https://raw.githubusercontent.com/RogerPina2/7-logica-da-computacao/main/DIagrama%20Sint%C3%A1tico.png?token=AJFHQVSBGYMD2XXWYGYNN2TALEB4W)
+![DIagrama Sintático](https://raw.githubusercontent.com/RogerPina2/7-logica-da-computacao/main/DIagrama%20Sint%C3%A1tico.png)
 
 # EBNF
 EXPRESSION = TERM, { ("+" | "-"), TERM };
