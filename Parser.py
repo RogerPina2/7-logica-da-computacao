@@ -54,8 +54,7 @@ class Parser():
                     return int(result)
                 else:
                     error.parenteses()
-
-
+                    
         return int(result)
 
     def parseTerm(self, result):
@@ -69,19 +68,21 @@ class Parser():
 
                 if self.tokens.actual.type in ['INT', 'PLUS', 'MINUS', 'L_PAR']:
 
-                    value = self.parseExpression(self.tokens.actual.value)
-                    
+                    value = self.parseFactor(self.tokens.actual.value)
+                
                     if operador == 'MULT':
                         result *= value
                     else:
                         result /= value
+
+                    result = int(result)
 
                 elif self.tokens.actual.type == 'EOF':
                     error.operador_no_final()
                 else:
                     error.sequencia_de_operadores()
             
-            return result
+            return int(result)
 
     def parseFactor(self, result):
         if self.tokens.actual.type == 'INT':
