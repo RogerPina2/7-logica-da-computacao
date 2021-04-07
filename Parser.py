@@ -3,6 +3,11 @@ from Token import tokens, getToken
 from Erros import Erros
 from PrePro import PrePro
 
+from Node.BinOp import BinOp
+from Node.UnOp import UnOp
+from Node.IntVal import IntVal
+from Node.NoOp import NoOp
+
 error = Erros()
 
 class Parser():
@@ -11,106 +16,70 @@ class Parser():
         self.tokens = tokenizer     # Objeto da classe que irá ler o código fonte e aliimentar o Analisador    
         self.prepro = prepro
 
-    def parseExpression(self, result = None, r = False):
+    def parseExpression(self):
         """
             This function consumes the tokens from Tokenizer 
             and analyzes whether the sintax is adherent to the proposed grammar 
             and returns the result of the analyzed expression.
         """
-        
-        result = 0 if result is None else result;
+        tree = None
 
-        if self.tokens.actual.type == "SPACE":
-            self.tokens.selectNext()
+        while self.tokens.actual.type != 'EOF':
+            node = self.parseTerm()
 
-        while self.tokens.actual.type != "EOF":
-            result = self.parseTerm(result)
-            
             while self.tokens.actual.type in ['PLUS', 'MINUS']:
-                operador = self.tokens.actual.type
-                
+                if tree is not None:
+                    node = tree
+
+                tree = BinOp(self.tokens.actual)
+                tree.children.append(node)
                 self.tokens.selectNext()
+                node = self.parseTerm()
+                tree.children.append(node)
 
-                if self.tokens.actual.type in ['INT', 'PLUS', 'MINUS', 'L_PAR']:
-
-                    value = self.parseTerm(self.tokens.actual.value)
-    
-                    if operador == 'PLUS':
-                        result += value
-                    else:
-                        result -= value
-
-                elif self.tokens.actual.type == 'EOF':
-                    error.operador_no_final()
-
-                else:
-                    error.sequencia_de_operadores()
-            
             if self.tokens.actual.type == 'INT':
                 error.entrada_nao_aceita()
 
-            if self.tokens.actual.type == 'R_PAR':
-                if r:
-                    return int(result)
-                else:
-                    error.parenteses()
-                    
-        return int(result)
+            if tree is None:
+                tree = node
+            return tree
 
-    def parseTerm(self, result):
-        while self.tokens.actual.type != "EOF":
-            result = self.parseFactor(result)
+    def parseTerm(self):
+        tree = None
+        node = self.parseFactor()
 
-            while self.tokens.actual.type in ['MULT', 'DIV']:
-                operador = self.tokens.actual.type
-                
-                self.tokens.selectNext()
+        while self.tokens.actual.type in ['MULT', 'DIV']:
+            if tree is not  None:
+                node = tree
 
-                if self.tokens.actual.type in ['INT', 'PLUS', 'MINUS', 'L_PAR']:
-
-                    value = self.parseFactor(self.tokens.actual.value)
-                
-                    if operador == 'MULT':
-                        result *= value
-                    else:
-                        result /= value
-
-                    result = int(result)
-
-                elif self.tokens.actual.type == 'EOF':
-                    error.operador_no_final()
-                else:
-                    error.sequencia_de_operadores()
-            
-            return int(result)
-
-    def parseFactor(self, result):
-        if self.tokens.actual.type == 'INT':
-            value = self.tokens.actual.value
+            tree = BinOp(self.tokens.actual)
+            tree.children.append(node)
             self.tokens.selectNext()
-            return value
+            node = self.parseFactor()
+            tree.children.append(node)
+
+        if tree is None:
+            tree = node
+        return tree
+
+    def parseFactor(self):
+        if self.tokens.actual.type == 'INT':
+            tree = IntVal(self.tokens.actual)
+            self.tokens.selectNext()
 
         elif self.tokens.actual.type in ['PLUS', 'MINUS']:
-            if self.tokens.actual.type == 'PLUS':
-                self.tokens.selectNext()
-                value = self.parseFactor(result)
-                return value
-            else:
-                self.tokens.selectNext()
-                value = -self.parseFactor(result)
-                return value
-            
+            tree = UnOp(self.tokens.actual)
+            self.tokens.selectNext()
+            tree.children.append(self.parseFactor())
+
         elif self.tokens.actual.type == 'L_PAR':
             self.tokens.selectNext()
-            value = self.tokens.actual.value
-            result = self.parseExpression(value, True)
+            tree = self.parseExpression()
 
             if self.tokens.actual.type == 'R_PAR':
                 self.tokens.selectNext()
-                return result
-        
-            if self.tokens.actual.type == 'EOF':
-                error.parenteses()
+
+        return tree
 
     def run(self, cf):
         """
@@ -127,4 +96,4 @@ class Parser():
     
         self.tokens = Tokenizer(cf_filtred, 0)
 
-        return print(self.parseExpression())
+        return self.parseExpression()
