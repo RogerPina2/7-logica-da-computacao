@@ -2,7 +2,7 @@
 
 Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 0
 
-![image](https://user-images.githubusercontent.com/38434902/109440618-aa973100-7a11-11eb-9e10-4f649c20e85a.png)
+![image](src/img/DS.png)
 
 # Diagrama sintático
 
