@@ -1,12 +1,9 @@
 # 7-logica-da-computacao
-
-Para utilizar o código você deve inserir a entrada como no exemplo do roteiro 0
-
-![image](src/img/DS.png)
+Projeto Simple Calculator
 
 # Diagrama sintático
 
-![Diagrama_Sintatico](DS.png)
+![Diagrama_Sintatico](src/img/DS.png)
 
 # EBNF
 EXPRESSION = TERM, { ("+" | "-"), TERM };
