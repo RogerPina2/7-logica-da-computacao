@@ -16,7 +16,7 @@ class Parser():
         self.tokens = tokenizer     # Objeto da classe que irá ler o código fonte e aliimentar o Analisador    
         self.prepro = prepro
 
-    def parseExpression(self):
+    def parseExpression(self, flag = None):
         """
             This function consumes the tokens from Tokenizer 
             and analyzes whether the sintax is adherent to the proposed grammar 
@@ -40,8 +40,12 @@ class Parser():
             if self.tokens.actual.type == 'INT':
                 error.entrada_nao_aceita()
 
+            if self.tokens.actual.type == 'R_PAR' and flag:
+                error.parenteses()
+
             if tree is None:
                 tree = node
+
             return tree
 
     def parseTerm(self):
@@ -79,6 +83,9 @@ class Parser():
             if self.tokens.actual.type == 'R_PAR':
                 self.tokens.selectNext()
 
+            elif self.tokens.actual.type == 'EOF':
+                error.parenteses()
+
         return tree
 
     def run(self, cf):
@@ -96,4 +103,4 @@ class Parser():
     
         self.tokens = Tokenizer(cf_filtred, 0)
 
-        return self.parseExpression()
+        return self.parseExpression(True)

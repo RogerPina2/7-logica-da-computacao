@@ -33,6 +33,8 @@ class PrePro():
         for e in range(len(cut_in)):
             pos = cut_in.pop()
             cf = cf[0:pos[0]] + cf[pos[1]:]
+
+        cf = cf.strip()
         
         return cf
         
