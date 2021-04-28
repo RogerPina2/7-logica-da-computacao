@@ -43,7 +43,7 @@ def main():
         ast = parser.run(command)
         BState.children.append(ast)
     
-    print(BState.Evaluate())
+    BState.Evaluate()
 
 if __name__ == "__main__":
     main()
