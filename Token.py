@@ -20,5 +20,9 @@ tokens = [
     Token("SPACE",  re.compile(r' ')),
     Token("EOF",    re.compile(r'$')),
     Token("L_PAR",  re.compile(r'\(')),
-    Token("R_PAR",  re.compile(r'\)'))
+    Token("R_PAR",  re.compile(r'\)')),
+    Token("ASSIGN", re.compile(r'=')),
+    Token("PRINT",  re.compile('println')),
+    Token("ID",     re.compile(r'[A-Za-z][A-Za-z0-9_]*')),
+    Token("END",    re.compile(r';'))
 ]

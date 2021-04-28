@@ -3,11 +3,8 @@ Projeto Simple Calculator
 
 # Diagrama sintático
 
-![Diagrama_Sintatico](src/img/DS.png)
+![Diagrama_Sintatico](src/img/Rot5.png)
 
 # EBNF
-EXPRESSION = TERM, { ("+" | "-"), TERM };
 
-TERM = FACTOR, { ("*" | "/"), FACTOR };
-
-FACTOR = ("+" | "-"), FACTOR | "(", EXPRESSION, ")" | number;
+![ENBF](src/img/EBNF.png)
