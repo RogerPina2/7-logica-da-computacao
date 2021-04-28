@@ -8,14 +8,18 @@ __copyright__ = "" #"Copyright 2021, -"
 __credits__ = ["Roger Pina"]
 
 __license__ = ""
-__version__ = "2.0.1"
+__version__ = "2.1.1"
 __maintainer__ = "Roger Pina"
 __email__ = "rogerrfp@al.insper.edu.br"
 __status__ = "Production"
 
 import sys
 
+from PrePro import PrePro
 from Parser import Parser
+from Node.Node import Node
+
+from SymbolTable import ST
 
 parser = Parser()
 
@@ -24,16 +28,22 @@ def main():
         Arquivo main 
     """
 
-    # Recebe os valores de entrada e armazena em args
-    # Transforma uma cadeia de espaços em um único espaço
+    # args = path do arquivo teste
     args = ' '.join(sys.argv[1:])
 
+    # cf = lista das linhas do arquivo teste
     with open(f'{args}', 'r') as c_file:
-        cf = c_file.read()
+        cf = c_file.readlines()
 
-    AST_montada = parser.run(cf)
-
-    print(AST_montada.Evaluate())
+    BState = Node(0)
+    
+    for line in cf:
+        # pré-processamento da linha de comando
+        command = PrePro().filter(line)
+        ast = parser.run(command)
+        BState.children.append(ast)
+    
+    print(BState.Evaluate())
 
 if __name__ == "__main__":
     main()

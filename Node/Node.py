@@ -4,4 +4,5 @@ class Node():
         self.children = [] #list of nodes
         
     def Evaluate(self): #variant
-        return
+        for child in self.children:
+            child.Evaluate()

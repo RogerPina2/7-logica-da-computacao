@@ -1,20 +1,22 @@
 from Tokenizer import Tokenizer
 from Token import tokens, getToken
 from Erros import Erros
-from PrePro import PrePro
 
 from Node.BinOp import BinOp
 from Node.UnOp import UnOp
 from Node.IntVal import IntVal
 from Node.NoOp import NoOp
+from Node.PrintOp import PrintOp
+
+from SymbolTable import ST
 
 error = Erros()
 
 class Parser():
 
-    def __init__(self, tokenizer=None, prepro=None):
-        self.tokens = tokenizer     # Objeto da classe que irá ler o código fonte e aliimentar o Analisador    
-        self.prepro = prepro
+    def __init__(self, tokenizer=None):
+        self.tokens = tokenizer     # Objeto da classe que irá ler o código fonte e aliimentar o Analisador
+        self.rpar = False    
 
     def parseExpression(self, flag = None):
         """
@@ -26,6 +28,9 @@ class Parser():
 
         while self.tokens.actual.type != 'EOF':
             node = self.parseTerm()
+            if self.rpar:
+                self.rpar = False
+                return node
 
             while self.tokens.actual.type in ['PLUS', 'MINUS']:
                 if tree is not None:
@@ -53,7 +58,7 @@ class Parser():
         node = self.parseFactor()
 
         while self.tokens.actual.type in ['MULT', 'DIV']:
-            if tree is not  None:
+            if tree is not None:
                 node = tree
 
             tree = BinOp(self.tokens.actual)
@@ -61,6 +66,9 @@ class Parser():
             self.tokens.selectNext()
             node = self.parseFactor()
             tree.children.append(node)
+
+        if self.tokens.actual.type == 'R_PAR':
+            self.rpar = True
 
         if tree is None:
             tree = node
@@ -79,11 +87,54 @@ class Parser():
         elif self.tokens.actual.type == 'L_PAR':
             self.tokens.selectNext()
             tree = self.parseExpression()
+            # print(self.tokens.actual.type)
 
             if self.tokens.actual.type == 'R_PAR':
                 self.tokens.selectNext()
+                # print(self.tokens.actual.type)
 
             elif self.tokens.actual.type == 'EOF':
+                error.parenteses()
+
+        # identific
+        elif self.tokens.actual.type == 'ID':
+            node = NoOp(self.tokens.actual)
+
+            self.tokens.selectNext()
+            
+            if self.tokens.actual.type == 'ASSIGN':
+                tree = BinOp(self.tokens.actual)
+                tree.children.append(node)
+                self.tokens.selectNext()
+                node = self.parseExpression()
+                tree.children.append(node)
+
+            else: 
+                tree = node
+
+            if self.tokens.actual.type == 'END':
+                self.tokens.selectNext()
+
+        elif self.tokens.actual.type == 'PRINT':
+            tree = PrintOp(self.tokens.actual)
+
+            self.tokens.selectNext()
+
+            if self.tokens.actual.type != 'L_PAR':
+                error.parenteses()
+            
+            self.tokens.selectNext()
+            
+            node = self.parseExpression()
+            tree.children.append(node)
+
+            if self.tokens.actual.type != 'R_PAR':
+                error.parenteses()
+
+            self.tokens.selectNext()
+
+            if self.tokens.actual.type != 'END':
+                # self.tokens.selectNext()
                 error.parenteses()
 
         return tree
@@ -93,14 +144,11 @@ class Parser():
             This function takes the source code as an argument, 
             initializes a tokenizer object 
             and returns the resut of parseExpression(). 
-            This method willbe called by main(). 
+            This method will be called by main(). 
         """
-
-        self.prepro = PrePro()
-        cf_filtred = self.prepro.filter(cf)
 
         for token in tokens: token
     
-        self.tokens = Tokenizer(cf_filtred, 0)
+        self.tokens = Tokenizer(cf, 0)
 
         return self.parseExpression(True)

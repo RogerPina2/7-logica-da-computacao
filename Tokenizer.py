@@ -1,6 +1,6 @@
 from Token import Token, tokens
 
-class Tokenizer:
+class Tokenizer():
 
     def __init__(self, origin, position, actual=None):
         self.origin = origin                    # Código-fonte que será tokenizado
