@@ -17,7 +17,7 @@ import sys
 
 from PrePro import PrePro
 from Parser import Parser
-from Node.Node import Node
+from Node.BS import BS
 
 from SymbolTable import ST
 
@@ -33,16 +33,18 @@ def main():
 
     # cf = lista das linhas do arquivo teste
     with open(f'{args}', 'r') as c_file:
-        cf = c_file.readlines()
+        cf = [line.strip() for line in c_file.readlines()]
 
-    BState = Node(0)
+    BState = BS()
     
     for line in cf:
-        # pré-processamento da linha de comando
-        command = PrePro().filter(line)
-        ast = parser.run(command)
-        BState.children.append(ast)
+        if line != '':
+            # pré-processamento da linha de comando
+            command = PrePro().filter(line)
+            ast = parser.run(command)
+            BState.children.append(ast)
     
+    # print(BState.children)
     BState.Evaluate()
 
 if __name__ == "__main__":
