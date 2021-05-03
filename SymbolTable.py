@@ -5,7 +5,7 @@ class SymbolTable():
 
     def getter(self, symbol):
         if symbol not in self.dic.keys():
-            return Exception()
+            raise Exception()
 
         return self.dic[symbol]
         

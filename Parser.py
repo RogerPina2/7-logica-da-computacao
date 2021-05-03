@@ -93,12 +93,15 @@ class Parser():
                 self.tokens.selectNext()
                 # print(self.tokens.actual.type)
 
+            elif self.tokens.actual.type == 'END':
+                raise Exception()
+
             elif self.tokens.actual.type == 'EOF':
                 error.parenteses()
 
         # identific
         elif self.tokens.actual.type == 'ID':
-            node = NoOp(self.tokens.actual)
+            node = IntVal(self.tokens.actual)
 
             self.tokens.selectNext()
             
@@ -111,6 +114,9 @@ class Parser():
 
             else: 
                 tree = node
+
+            if self.tokens.actual.type == 'L_PAR':
+                raise Exception()
 
             if self.tokens.actual.type == 'END':
                 self.tokens.selectNext()
