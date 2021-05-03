@@ -17,7 +17,7 @@ import sys
 
 from PrePro import PrePro
 from Parser import Parser
-from Node.BS import BS
+from Node.MultOp import MultOp
 
 from SymbolTable import ST
 
@@ -35,7 +35,7 @@ def main():
     with open(f'{args}', 'r') as c_file:
         cf = [line.strip() for line in c_file.readlines()]
 
-    BState = BS()
+    BState = MultOp()
     
     for line in cf:
         if line != '':

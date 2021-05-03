@@ -6,7 +6,6 @@ from Node.BinOp import BinOp
 from Node.UnOp import UnOp
 from Node.IntVal import IntVal
 from Node.NoOp import NoOp
-from Node.PrintOp import PrintOp
 
 from SymbolTable import ST
 
@@ -116,7 +115,7 @@ class Parser():
                 self.tokens.selectNext()
 
         elif self.tokens.actual.type == 'PRINT':
-            tree = PrintOp(self.tokens.actual)
+            tree = UnOp(self.tokens.actual)
 
             self.tokens.selectNext()
 
