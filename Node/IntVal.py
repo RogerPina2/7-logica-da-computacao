@@ -13,3 +13,8 @@ class IntVal(Node):
         elif self.value.type == "ID":
             return ST.getter(self.value.value)
         
+        elif self.value.type == 'READ':
+            try:
+                return int(input())
+            except:
+                raise Exception()
