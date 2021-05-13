@@ -15,11 +15,7 @@ __status__ = "Production"
 
 import sys
 
-from PrePro import PrePro
 from Parser import Parser
-from Node.MultOp import MultOp
-
-from SymbolTable import ST
 
 parser = Parser()
 
@@ -33,19 +29,10 @@ def main():
 
     # cf = lista das linhas do arquivo teste
     with open(f'{args}', 'r') as c_file:
-        cf = [line.strip() for line in c_file.readlines()]
-
-    BState = MultOp()
-    
-    for line in cf:
-        if line != '':
-            # pré-processamento da linha de comando
-            command = PrePro().filter(line)
-            ast = parser.run(command)
-            BState.children.append(ast)
-    
-    # print(BState.children)
-    BState.Evaluate()
+        # cf = [line.strip() for line in c_file.readlines() if line.strip() != '']
+        cf = ' '.join(c_file.read().split())
+        
+    parser.run(cf)
 
 if __name__ == "__main__":
     main()
