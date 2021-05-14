@@ -67,13 +67,12 @@ class Parser():
 
             if self.tokens.actual.type == 'L_PAR':
                 self.tokens.selectNext()
-                 
+         
                 node = self.parseOrExp()
                 tree.children.append(node)
-                
+
                 if self.tokens.actual.type == 'R_PAR':
                     self.tokens.selectNext()
-                    
                 else:
                     raise Exception()
             else:
@@ -223,33 +222,28 @@ class Parser():
             and returns the result of the analyzed expression.
         """
         tree = None
+        node = self.parseTerm()
+        
+        while self.tokens.actual.type in ['PLUS', 'MINUS']:
+            if tree is not None:
+                node = tree
 
-        while self.tokens.actual.type != 'EOF':
+            tree = BinOp(self.tokens.actual)
+            tree.children.append(node)
+            self.tokens.selectNext()
             node = self.parseTerm()
-            if self.rpar:
-                self.rpar = False
-                return node
+            tree.children.append(node)
 
-            while self.tokens.actual.type in ['PLUS', 'MINUS']:
-                if tree is not None:
-                    node = tree
+        if self.tokens.actual.type == 'INT':
+            error.entrada_nao_aceita()
 
-                tree = BinOp(self.tokens.actual)
-                tree.children.append(node)
-                self.tokens.selectNext()
-                node = self.parseTerm()
-                tree.children.append(node)
+        if self.tokens.actual.type == 'R_PAR' and flag:
+            error.parenteses()
 
-            if self.tokens.actual.type == 'INT':
-                error.entrada_nao_aceita()
+        if tree is None:
+            tree = node
 
-            if self.tokens.actual.type == 'R_PAR' and flag:
-                error.parenteses()
-
-            if tree is None:
-                tree = node
-
-            return tree
+        return tree
 
     def parseTerm(self):
         tree = None
@@ -320,10 +314,11 @@ class Parser():
                 error.parenteses()
 
             self.tokens.selectNext()
+            print(self.tokens.actual.type)
 
-            if self.tokens.actual.type != 'END':
-                # self.tokens.selectNext()
-                error.parenteses()
+            # if self.tokens.actual.type != 'END':
+            #     # self.tokens.selectNext()
+            #     error.parenteses()
 
         elif self.tokens.actual.type == 'READ':
             tree = IntVal(self.tokens.actual)
