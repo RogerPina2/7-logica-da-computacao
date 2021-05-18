@@ -1,6 +1,9 @@
 # 7-logica-da-computacao
 Projeto Simple Calculator
 
+# Status dos testes
+![git status](http:3.129.230.99/svg/RogerPina2/7-logica-da-computacao/)
+
 # Diagrama sintático
 
 ![Diagrama_Sintatico-P1](src/img/Rot6-p1.png)
