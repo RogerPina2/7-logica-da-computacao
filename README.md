@@ -2,7 +2,7 @@
 Projeto Simple Calculator
 
 # Status dos testes
-![git status](http:3.129.230.99/svg/RogerPina2/7-logica-da-computacao/)
+![git status](http://3.129.230.99/svg/<GitUser>/<repositorioCompilador>/)
 
 # Diagrama sintático
 
