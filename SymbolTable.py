@@ -5,7 +5,7 @@ class SymbolTable():
 
     def getter(self, symbol):
         if symbol not in self.dic.keys():
-            raise Exception()
+            raise Exception("Variável não existe no dicionário")
 
         return self.dic[symbol]
         
