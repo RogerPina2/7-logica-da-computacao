@@ -29,7 +29,6 @@ def main():
 
     # cf = lista das linhas do arquivo teste
     with open(f'{args}', 'r') as c_file:
-        # cf = [line.strip() for line in c_file.readlines() if line.strip() != '']
         cf = ' '.join(c_file.read().split())
         
     parser.run(cf)

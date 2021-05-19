@@ -1,3 +1,6 @@
+# Conditional Operation
+# Contains 2 or 3 children
+
 from .Node import Node
 
 class ConOp(Node):

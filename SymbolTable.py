@@ -9,7 +9,7 @@ class SymbolTable():
 
         return self.dic[symbol]
         
-    def setter(self, symbol, value):
-        self.dic[symbol] = value
+    def setter(self, symbol, _type, value=None):
+        self.dic[symbol] = (_type, value)
 
 ST = SymbolTable()
