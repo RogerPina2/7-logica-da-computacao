@@ -21,9 +21,8 @@ class AssignOp(Node):
                 try:
                     result = ST.getter(self.children[0].value.value)
                     raise Exception()
-                    
+
                 except:
-                    print(result)
                     if result != None:
                         raise Exception()
 
