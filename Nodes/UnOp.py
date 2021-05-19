@@ -17,6 +17,6 @@ class UnOp(Node):
             return int(not self.children[0].Evaluate())
 
         elif self.value.type == "PRINT":
-            print(self.children[0].Evaluate())
+            print(self.children[0].Evaluate()[0](self.children[0].Evaluate()[1]))
 
         
