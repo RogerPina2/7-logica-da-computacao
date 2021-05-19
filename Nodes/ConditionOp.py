@@ -11,7 +11,11 @@ class ConOp(Node):
                 self.children[1].Evaluate()
 
         if self.value.type == 'IF':
-            if self.children[0].Evaluate()[1]:
+            _type, value = self.children[0].Evaluate()
+            if _type is str:
+                raise Exception()
+            
+            if value:
                 self.children[1].Evaluate()
             else:
                 if len(self.children) > 2:

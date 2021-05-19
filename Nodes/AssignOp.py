@@ -17,6 +17,16 @@ class AssignOp(Node):
                 if type(value) == tuple:
                     value = value[1]
 
+                result = None
+                try:
+                    result = ST.getter(self.children[0].value.value)
+                    raise Exception()
+                    
+                except:
+                    print(result)
+                    if result != None:
+                        raise Exception()
+
                 if self.children[1].value.value == 'int':
                     ST.setter(self.children[0].value.value, int, value)
 

@@ -1,9 +1,8 @@
-{
-    string msg;
-    msg = "tchau";
-    if (msg == "oi") {
-        println("sim");
-    } else {
-        println("nao");
+{/* ERROR: redeclarar variavel*/
+    bool x;
+    bool x;
+    x = true;
+    if(x){
+        println(1);
     }
 }
