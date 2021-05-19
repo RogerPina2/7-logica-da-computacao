@@ -1,5 +1,8 @@
 {
-    println(1+1);
-    println(21+21);
-    println(83-41);
+    if ((1==1) && (1==0)){
+        println(0);
+    }
+    else{
+        println(1);
+    }
 }
