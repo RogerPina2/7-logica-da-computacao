@@ -2,6 +2,7 @@
 # Contem um filho
 
 from .Node import Node
+from SymbolTable import ST
 
 class UnOp(Node):
     

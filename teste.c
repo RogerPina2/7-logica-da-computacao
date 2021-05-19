@@ -1,5 +1,11 @@
 {
-    println(1+1);
-    println(21+21);
-    println(83-41);
+    int x;
+    bool y;
+    string z;
+    x = 1;
+    y = x || true;
+    z = "x:";
+    println(x + y);
+    println(z);
+    println(x + z); /* ERROR */
 }

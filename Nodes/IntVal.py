@@ -8,11 +8,8 @@ class IntVal(Node):
     
     def Evaluate(self):
         if self.value.type == "INT":
-            return int(self.value.value)
-        
-        elif self.value.type == "ID":
-            return ST.getter(self.value.value)
-        
+            return (int, int(self.value.value))
+                
         elif self.value.type == 'READ':
             try:
                 return int(input())

@@ -4,12 +4,7 @@ from Erros import Erros
 
 from PrePro import PrePro
 
-from Node.BinOp import BinOp
-from Node.UnOp import UnOp
-from Node.IntVal import IntVal
-from Node.NoOp import NoOp
-from Node.MultOp import MultOp
-from Node.ConditionOp import ConOp
+from Nodes.importNodes import *
 
 from SymbolTable import ST
 
@@ -45,13 +40,42 @@ class Parser():
     def parseCommand(self):
         tree = None
 
+        # TYPING
+        if self.tokens.actual.type == 'TYPING':
+            node_type = NoOp(self.tokens.actual)
+            self.tokens.selectNext()
+
+            if self.tokens.actual.type == 'ID':
+                node = IdVal(self.tokens.actual)
+                self.tokens.selectNext()
+
+                if self.tokens.actual.type == 'ASSIGN':
+                    tree = AssignOp(self.tokens.actual)
+                    tree.children.append(node)
+                    tree.children.append(node_type)
+                    self.tokens.selectNext()
+                    node = self.parseOrExp()
+                    tree.children.append(node)
+
+                elif self.tokens.actual.type == 'END':
+                    tree = AssignOp(node_type.value)
+                    tree.children.append(node)
+                    tree.children.append(node_type)
+                    tree.children.append(NoOp())
+                    self.tokens.selectNext()
+
+                    return tree
+
+            else:
+                raise Exception()
+
         # IDENTIFIER
         if self.tokens.actual.type == 'ID':
-            node = IntVal(self.tokens.actual)
+            node = IdVal(self.tokens.actual)
             self.tokens.selectNext()
 
             if self.tokens.actual.type == 'ASSIGN':
-                tree = BinOp(self.tokens.actual)
+                tree = AssignOp(self.tokens.actual)
                 tree.children.append(node)
                 self.tokens.selectNext()
                 node = self.parseOrExp()
@@ -265,9 +289,28 @@ class Parser():
         return tree if tree is not None else node
 
     def parseFactor(self):
+        # number
         if self.tokens.actual.type == 'INT':
             tree = IntVal(self.tokens.actual)
             self.tokens.selectNext()
+
+        # boolean
+        elif self.tokens.actual.type == 'BOOL':
+            tree = BoolVal(self.tokens.actual)
+            self.tokens.selectNext()
+
+        # string
+        elif self.tokens.actual.type == 'STRING':
+            tree = StringVal(self.tokens.actual)
+            self.tokens.selectNext()
+
+        # identific
+        elif self.tokens.actual.type == 'ID':
+            tree = IdVal(self.tokens.actual)
+            self.tokens.selectNext()
+            
+            if self.tokens.actual.type == 'L_PAR':
+                raise Exception()
 
         elif self.tokens.actual.type in ['PLUS', 'MINUS', 'NOT']:
             tree = UnOp(self.tokens.actual)
@@ -288,37 +331,6 @@ class Parser():
 
             elif self.tokens.actual.type == 'EOF':
                 error.parenteses()
-
-        # identific
-        elif self.tokens.actual.type == 'ID':
-            tree = IntVal(self.tokens.actual)
-            self.tokens.selectNext()
-            
-            if self.tokens.actual.type == 'L_PAR':
-                raise Exception()
-
-        elif self.tokens.actual.type == 'PRINT':
-            tree = UnOp(self.tokens.actual)
-
-            self.tokens.selectNext()
-
-            if self.tokens.actual.type != 'L_PAR':
-                error.parenteses()
-            
-            self.tokens.selectNext()
-            
-            node = self.parseExpression()
-            tree.children.append(node)
-
-            if self.tokens.actual.type != 'R_PAR':
-                error.parenteses()
-
-            self.tokens.selectNext()
-            print(self.tokens.actual.type)
-
-            # if self.tokens.actual.type != 'END':
-            #     # self.tokens.selectNext()
-            #     error.parenteses()
 
         elif self.tokens.actual.type == 'READ':
             tree = IntVal(self.tokens.actual)
