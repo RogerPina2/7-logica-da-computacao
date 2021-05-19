@@ -7,16 +7,20 @@ from SymbolTable import ST
 class UnOp(Node):
     
     def Evaluate(self):
+        _type, value = self.children[0].Evaluate()
+
         if self.value.type == "PLUS":
-            return (self.children[0].Evaluate()[0], self.children[0].Evaluate()[1])
+            return (_type, value)
 
         elif self.value.type == "MINUS":
-            return (self.children[0].Evaluate()[0], -self.children[0].Evaluate()[1])
+            return (_type, -value)
 
         elif self.value.type == "NOT":
-            return (self.children[0].Evaluate()[0], not self.children[0].Evaluate()[1])
+            return (_type, not value)
 
         elif self.value.type == "PRINT":
-            print(self.children[0].Evaluate()[0](self.children[0].Evaluate()[1]))
-
+            if _type is str:
+                print(_type(value[1:-1]))
+            else: 
+                print(_type(value))
         

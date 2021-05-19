@@ -34,7 +34,7 @@ class Tokenizer():
                 if _type == 'ID' and value in keywords:
                     idx = keywords.index(value)
                     _type = tokens_reservados[idx].type
-                    
+                
                 tk = Token(_type, value)
                 return tk
 
