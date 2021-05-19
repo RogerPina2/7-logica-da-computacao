@@ -12,6 +12,8 @@ class IntVal(Node):
                 
         elif self.value.type == 'READ':
             try:
-                return int(input())
+                entrada = int(input())
             except:
                 raise Exception()
+
+            return (int, entrada)

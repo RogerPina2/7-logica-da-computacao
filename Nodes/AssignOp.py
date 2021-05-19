@@ -13,10 +13,9 @@ class AssignOp(Node):
         if self.value.type == 'ASSIGN' or self.value.type == 'TYPING':
 
             if len(self.children) == 3:
-            
                 value = self.children[2].Evaluate() 
-                if type(self.children[2].Evaluate()) == tuple:
-                    value = self.children[2].Evaluate()[1]
+                if type(value) == tuple:
+                    value = value[1]
 
                 if self.children[1].value.value == 'int':
                     ST.setter(self.children[0].value.value, int, value)
@@ -31,7 +30,7 @@ class AssignOp(Node):
                 _type, v = ST.getter(self.children[0].value.value) # raise Exception se o símbolo n estiver no dicionário
                 
                 value = self.children[1].Evaluate()
-                if type(self.children[1].Evaluate()) == tuple:
-                    value = self.children[1].Evaluate()[1]
+                if type(value) == tuple:
+                    value = value[1]
                     
                 ST.setter(self.children[0].value.value, _type, _type(value))

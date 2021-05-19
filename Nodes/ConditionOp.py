@@ -7,8 +7,8 @@ class ConOp(Node):
     
     def Evaluate(self):
         if self.value.type == 'LOOP':
-            while self.children[0].Evaluate()[1]:
-                self.children[1].Evaluate()[1]
+            while (self.children[0].Evaluate()[1]):
+                self.children[1].Evaluate()
 
         if self.value.type == 'IF':
             if self.children[0].Evaluate()[1]:
