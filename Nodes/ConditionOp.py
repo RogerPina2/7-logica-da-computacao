@@ -7,11 +7,11 @@ class ConOp(Node):
     
     def Evaluate(self):
         if self.value.type == 'LOOP':
-            while self.children[0].Evaluate():
-                self.children[1].Evaluate()
+            while self.children[0].Evaluate()[1]:
+                self.children[1].Evaluate()[1]
 
         if self.value.type == 'IF':
-            if self.children[0].Evaluate():
+            if self.children[0].Evaluate()[1]:
                 self.children[1].Evaluate()
             else:
                 if len(self.children) > 2:
