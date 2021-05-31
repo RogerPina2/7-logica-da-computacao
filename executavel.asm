@@ -82,25 +82,45 @@ _start:
 
   ; codigo gerado pelo compilador
   PUSH DWORD 0
-  MOV EBX, 3
-  MOV [EBP-4], EBX
-  LOOP_6
-  MOV EBX, [EPB-4]
-  PUSH EBX
+  PUSH DWORD 0
+  PUSH DWORD 0
   MOV EBX, 5
+  MOV [EBP-8], EBX
+  MOV EBX, 2
+  MOV [EBP-4], EBX
+  MOV EBX, 1
+  MOV [EBP-12], EBX
+  LOOP_23:
+  MOV EBX, [EBP-4]
+  PUSH EBX
+  MOV EBX, [EBP-8]
+  PUSH EBX
+  MOV EBX, 1
   POP EAX
+  ADD EAX, EBX
+  MOV EBX, EAX
+  POP EAX
+  CMP EAX, EBX
+  CALL binop_jl
   CMP EBX, False
-  JE EXIT_6
-  MOV EBX, [EPB-4]
+  JE EXIT_23
+  MOV EBX, [EBP-12]
+  PUSH EBX
+  MOV EBX, [EBP-4]
+  POP EAX
+  IMUL EAX, EBX
+  MOV EBX, EAX
+  MOV [EBP-12], EBX
+  MOV EBX, [EBP-4]
   PUSH EBX
   MOV EBX, 1
   POP EAX
   ADD EAX, EBX
   MOV EBX, EAX
   MOV [EBP-4], EBX
-  JMP LOOP_6
-  EXIT_6
-  MOV EBX, [EPB-4]
+  JMP LOOP_23
+  EXIT_23:
+  MOV EBX, [EBP-12]
   PUSH EBX
   CALL print
   POP EBX

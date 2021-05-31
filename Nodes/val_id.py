@@ -9,5 +9,5 @@ class IdVal(Node):
     
     def Evaluate(self):
         t, v, desl = ST.getter(self.value.value)
-        GeradorAssembly.addString(f'MOV EBX, [EPB-{desl}]')
+        GeradorAssembly.addString(f'MOV EBX, [EBP-{desl}]')
         return (t,v, None)
