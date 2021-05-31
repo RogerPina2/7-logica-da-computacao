@@ -8,7 +8,7 @@ __copyright__ = "" #"Copyright 2021, -"
 __credits__ = ["Roger Pina"]
 
 __license__ = ""
-__version__ = "2.1.1"
+__version__ = "3.0.1"
 __maintainer__ = "Roger Pina"
 __email__ = "rogerrfp@al.insper.edu.br"
 __status__ = "Production"
@@ -16,6 +16,7 @@ __status__ = "Production"
 import sys
 
 from Parser import Parser
+from GeradorAssembly import GeradorAssembly
 
 parser = Parser()
 
@@ -32,6 +33,7 @@ def main():
         cf = ' '.join(c_file.read().split())
         
     parser.run(cf)
+    GeradorAssembly.gerarExe('executavel')
 
 if __name__ == "__main__":
     main()

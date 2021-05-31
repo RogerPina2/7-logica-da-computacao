@@ -4,7 +4,6 @@
 from .Node import Node
 
 class NoOp(Node):
-    
     def Evaluate(self):
         return 
         
