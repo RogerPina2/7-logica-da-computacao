@@ -17,10 +17,3 @@ class UnOp(Node):
 
         elif self.value.type == "NOT":
             return (_type, not value)
-
-        elif self.value.type == "PRINT":
-            if _type is str:
-                print(_type(value[1:-1]))
-            else: 
-                print(_type(value))
-        

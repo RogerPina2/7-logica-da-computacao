@@ -86,7 +86,7 @@ class Parser():
 
         # PRINTLN
         elif self.tokens.actual.type == 'PRINT':
-            tree = UnOp(self.tokens.actual)
+            tree = Print(self.tokens.actual)
             self.tokens.selectNext()
 
             if self.tokens.actual.type == 'L_PAR':
@@ -183,7 +183,7 @@ class Parser():
             if tree is not None:
                 node = tree
 
-            tree = BinOp(self.tokens.actual)
+            tree = BinLogOp(self.tokens.actual)
             tree.children.append(node)
             self.tokens.selectNext()
             node = self.parseAndExp()
@@ -199,7 +199,7 @@ class Parser():
             if tree is not None:
                 node = tree
 
-            tree = BinOp(self.tokens.actual)
+            tree = BinLogOp(self.tokens.actual)
             tree.children.append(node)
             self.tokens.selectNext()
             node = self.parseEqExp()
@@ -215,7 +215,7 @@ class Parser():
             if tree is not None:
                 node = tree
 
-            tree = BinOp(self.tokens.actual)
+            tree = BinRelOp(self.tokens.actual)
             tree.children.append(node)
             self.tokens.selectNext()
             node = self.parseRelExp()
@@ -231,7 +231,7 @@ class Parser():
             if tree is not None:
                 node = tree
 
-            tree = BinOp(self.tokens.actual)
+            tree = BinRelOp(self.tokens.actual)
             tree.children.append(node)
             self.tokens.selectNext()
             node = self.parseExpression()
@@ -252,7 +252,7 @@ class Parser():
             if tree is not None:
                 node = tree
 
-            tree = BinOp(self.tokens.actual)
+            tree = BinAritOp(self.tokens.actual)
             tree.children.append(node)
             self.tokens.selectNext()
             node = self.parseTerm()
@@ -277,7 +277,7 @@ class Parser():
             if tree is not None:
                 node = tree
 
-            tree = BinOp(self.tokens.actual)
+            tree = BinAritOp(self.tokens.actual)
             tree.children.append(node)
             self.tokens.selectNext()
             node = self.parseFactor()
@@ -333,7 +333,7 @@ class Parser():
                 error.parenteses()
 
         elif self.tokens.actual.type == 'READ':
-            tree = IntVal(self.tokens.actual)
+            tree = Read(self.tokens.actual)
             self.tokens.selectNext()
 
             if self.tokens.actual.type == 'L_PAR':
