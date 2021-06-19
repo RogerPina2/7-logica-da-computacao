@@ -9,7 +9,8 @@ class UnIOOp(Node):
     def Evaluate(self):
         ST = SymbolTable.pilhaST[-1]
 
-        _type, value = self.children[0].Evaluate()
+        if len(self.children) > 0:
+            _type, value = self.children[0].Evaluate()
 
         if self.value.type == "PRINT":
             if _type is str:

@@ -1,8 +1,7 @@
-/*Erro: Parametro sem tipo*/
-int exibe(x){
-    println(x);
-}
-
 int main(){
-    exibe(5);
+    int x;
+    int y;
+    x = readln();
+    y = x*2;
+    println(y);
 }
