@@ -50,6 +50,9 @@ class Parser():
                                     if self.tokens.actual.type == 'R_PAR':
                                         raise Exception()
                         
+                        else:
+                            raise Exception()
+                        
                         vardec.children.append(param)
 
                     self.tokens.selectNext()

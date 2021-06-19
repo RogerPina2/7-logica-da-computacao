@@ -17,5 +17,5 @@ class UnOp(Node):
             "NOT"   : not value
             }
             
-        return (_type, options[_type])
+        return (_type, options[self.value.type])
         
