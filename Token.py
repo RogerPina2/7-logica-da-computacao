@@ -37,10 +37,11 @@ tokens = [
     Token("OR",     re.compile(r'\|\|')),
     Token("NOT",    re.compile(r'!')),
     Token("STRING", re.compile(r'".*?"')),
+    Token("COMMA",  re.compile(r','))
 ]
 
 keywords = [
-    'println', 'readln', 'if', 'else', 'while', 'int', 'bool', 'string', 'true', 'false'
+    'println', 'readln', 'if', 'else', 'while', 'int', 'bool', 'string', 'true', 'false', 'return'
 ]
 
 tokens_reservados = [
@@ -53,5 +54,7 @@ tokens_reservados = [
     Token("TYPING", re.compile(r'int|bool|string')),
     Token("TYPING", re.compile(r'int|bool|string')),
     Token("BOOL",   re.compile(r'true|false')),
-    Token("BOOL",   re.compile(r'true|false'))
+    Token("BOOL",   re.compile(r'true|false')),
+    Token("RETURN", re.compile(r'return')),
+    Token("FUNC",   re.compile(r'[A-Za-z][A-Za-z0-9_]*'))
 ]

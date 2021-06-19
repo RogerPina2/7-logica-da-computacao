@@ -29,12 +29,18 @@ class Tokenizer():
                 
                 num_dig = token.value.match(cf[pos:]).span()[1]
                 _type = token.type
-                value = int(cf[pos:pos + num_dig]) if _type == 'INT' else cf[pos:pos + num_dig]
+                if _type == 'INT':
+                    value = int(cf[pos:pos + num_dig]) 
+                else:
+                    value = cf[pos:pos + num_dig]
 
                 if _type == 'ID' and value in keywords:
                     idx = keywords.index(value)
                     _type = tokens_reservados[idx].type
                 
+                if _type == 'ID' and cf[pos + num_dig] == '(':
+                    _type = tokens_reservados[-1].type
+                    
                 tk = Token(_type, value)
                 return tk
 

@@ -1,13 +1,13 @@
-# Binary Operation
-# Contains 2 children
-
-import re
 from .Node import Node
-from SymbolTable import ST
+from SymbolTable import SymbolTable
 
 class BinOp(Node):
+    """
+        Binary Operation, Contains 2 children
+    """
     
     def Evaluate(self):
+        ST = SymbolTable.pilhaST[-1]
 
         _type1, value1 = self.children[0].Evaluate()
         _type2, value2 = self.children[1].Evaluate()
@@ -52,7 +52,6 @@ class BinOp(Node):
             v2 = _type2(value2)
             result = v1 == v2
             return (bool, result)
-
 
         # logic operations
         elif self.value.type == 'AND':

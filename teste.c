@@ -1,7 +1,14 @@
-{int x1;
-    x1 = 3;
-    int y2;
-    y2 = 4;
-    int z_final;
-    z_final = x1 + y2;
-    println(z_final);}
+int soma(int x, int y) {
+    int a;
+    a = x + y;
+    println(a);
+    return a;
+}
+int main() {
+    int a;
+    int b;
+    a = 3;
+    b = soma(a, 4);
+    println(a);
+    println(b);
+}

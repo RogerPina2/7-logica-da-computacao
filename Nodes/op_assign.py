@@ -1,13 +1,13 @@
-# Assignment Operation
-# Contains 2 children
-
-import re
 from .Node import Node
-from SymbolTable import ST
+from SymbolTable import SymbolTable
 
 class AssignOp(Node):
+    """
+        Assignment Operation, Contains 2 children
+    """
     
     def Evaluate(self):
+        ST = SymbolTable.pilhaST[-1]
 
         # assignment operation
         if self.value.type == 'ASSIGN' or self.value.type == 'TYPING':
@@ -37,8 +37,9 @@ class AssignOp(Node):
 
             elif len(self.children) == 2:
                 _type, v = ST.getter(self.children[0].value.value) # raise Exception se o símbolo n estiver no dicionário
-                
+    
                 value = self.children[1].Evaluate()
+                
                 if type(value) == tuple:
                     value = value[1]
                     

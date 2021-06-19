@@ -1,3 +1,5 @@
+from re import S
+from Nodes.FuncDec import FuncCall
 from Tokenizer import Tokenizer
 from Token import tokens, tokens_reservados, getToken
 from Erros import Erros
@@ -5,8 +7,6 @@ from Erros import Erros
 from PrePro import PrePro
 
 from Nodes.importNodes import *
-
-from SymbolTable import ST
 
 error = Erros()
 
@@ -16,8 +16,52 @@ class Parser():
         self.tokens = tokenizer     # Objeto da classe que irá ler o código fonte e aliimentar o Analisador
         self.rpar = False    
 
+    def parseFuncBlock(self):
+        tree = FuncDec()
+
+        vardec = Statements()
+
+        if self.tokens.actual.type == 'TYPING':
+            func = Dec()
+            func.children.append(self.tokens.actual)
+            self.tokens.selectNext()
+        
+            if self.tokens.actual.type == 'FUNC':
+                func.children.append(self.tokens.actual)
+                self.tokens.selectNext()
+
+                vardec.children.append(func)
+
+                if self.tokens.actual.type == 'L_PAR':
+                    self.tokens.selectNext()
+
+                    while self.tokens.actual.type != 'R_PAR':
+                        param = Dec()
+                        if self.tokens.actual.type == 'TYPING':
+                            param.children.append(self.tokens.actual)
+                            self.tokens.selectNext()
+                            
+                            if self.tokens.actual.type == 'ID':
+                                param.children.append(self.tokens.actual)
+                                self.tokens.selectNext()
+
+                                if self.tokens.actual.type == 'COMMA':
+                                    self.tokens.selectNext()
+                                    if self.tokens.actual.type == 'R_PAR':
+                                        raise Exception()
+                        
+                        vardec.children.append(param)
+
+                    self.tokens.selectNext()
+                
+                stm = self.parseBlock()
+                tree.children.append(vardec)
+                tree.children.append(stm)
+
+        return tree
+    
     def parseBlock(self):
-        tree = MultOp()
+        tree = Statements()
 
         if self.tokens.actual.type == 'L_KEY':
             self.tokens.selectNext()
@@ -65,9 +109,9 @@ class Parser():
                     self.tokens.selectNext()
 
                     return tree
-
             else:
                 raise Exception()
+                
 
         # IDENTIFIER
         if self.tokens.actual.type == 'ID':
@@ -84,9 +128,35 @@ class Parser():
             else:
                 raise Exception()
 
+        # RETURN
+        elif self.tokens.actual.type == 'RETURN':
+            tree = UnIOOp(self.tokens.actual)
+            self.tokens.selectNext()
+            node = self.parseOrExp()
+            tree.children.append(node)
+
+        # FUNCTION
+        elif self.tokens.actual.type == 'FUNC':
+            tree = FuncCall()
+            tree.children.append(self.tokens.actual)
+            self.tokens.selectNext()
+            
+            if self.tokens.actual.type == 'L_PAR':
+                self.tokens.selectNext()
+                
+                while self.tokens.actual.type != 'R_PAR':
+                    node = self.parseOrExp()
+                    tree.children.append(node)
+                    if self.tokens.actual.type == 'COMMA':
+                        self.tokens.selectNext()
+                        if self.tokens.actual.type == 'R_PAR':
+                            raise Exception()
+
+                self.tokens.selectNext()
+
         # PRINTLN
         elif self.tokens.actual.type == 'PRINT':
-            tree = UnOp(self.tokens.actual)
+            tree = UnIOOp(self.tokens.actual)
             self.tokens.selectNext()
 
             if self.tokens.actual.type == 'L_PAR':
@@ -309,8 +379,25 @@ class Parser():
             tree = IdVal(self.tokens.actual)
             self.tokens.selectNext()
             
+        # FUNCTION
+        elif self.tokens.actual.type == 'FUNC':
+            tree = FuncCall()
+            tree.children.append(self.tokens.actual)
+            self.tokens.selectNext()
+                
             if self.tokens.actual.type == 'L_PAR':
-                raise Exception()
+                self.tokens.selectNext()
+
+                while self.tokens.actual.type != 'R_PAR':
+                    node = self.parseOrExp()
+                    tree.children.append(node)
+                    if self.tokens.actual.type == 'COMMA':
+                        self.tokens.selectNext()
+                        if self.tokens.actual.type == 'R_PAR':
+                            raise Exception()
+
+                self.tokens.selectNext()
+
 
         elif self.tokens.actual.type in ['PLUS', 'MINUS', 'NOT']:
             tree = UnOp(self.tokens.actual)
@@ -333,7 +420,7 @@ class Parser():
                 error.parenteses()
 
         elif self.tokens.actual.type == 'READ':
-            tree = IntVal(self.tokens.actual)
+            tree = UnIOOp(self.tokens.actual)
             self.tokens.selectNext()
 
             if self.tokens.actual.type == 'L_PAR':
@@ -357,11 +444,12 @@ class Parser():
         cf = PrePro().filter(cf)
         
         self.tokens = Tokenizer(cf, 0)
+    
+        while self.tokens.actual.type != 'EOF':
+            tree = self.parseFuncBlock()
+            tree.Evaluate()
         
-        BState = self.parseBlock()
-        if self.tokens.actual.type != 'EOF':
-            raise Exception()
-
-        return BState.Evaluate()
+        FC = FuncCall()
+        return FC.Evaluate()
     
         
