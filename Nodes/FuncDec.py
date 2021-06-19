@@ -61,18 +61,15 @@ class FuncCall(Node):
                 raise Exception(f'Erro na quantidade de argumentos passados pra função {self.children[0].value}')
 
             # Cria os parâmetors da função na SymbolTable da função
-            for idx in range(len(funcVarDec.children)):
+            for idx in range(1, len(funcVarDec.children)):
 
                 param = funcVarDec.children[idx].children
-    
-                if idx == 0:
-                    pass
-                else:
-                    ST.setter(
-                        param[1].value,
-                        types[param[0].value], 
-                        self.children[idx].Evaluate()[1]
-                        )
+
+                ST.setter(
+                    param[1].value,
+                    types[param[0].value], 
+                    self.children[idx].Evaluate()[1]
+                    )
 
             SymbolTable.pilhaST.append(ST)
             ret = funcBlock.Evaluate()
